@@ -27,17 +27,14 @@ module.exports = async function develop(port) {
         process.on("SIGINT", function () {
             if (proxyClient.isActive()) {
                 console.log('Asking server to delete registration. Exiting in 3 seconds...');
-                proxyClient.close();
-
+                proxyClient.deregister();
                 setTimeout(() => {
-                    console.log('Exiting due to SIGINT.');
+                    console.log('Exiting...');
                     process.exit();
                 }, 3000);
-
             } else {
                 process.exit();
             }
-
         });
 
     } catch(err) {

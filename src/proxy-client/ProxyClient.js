@@ -51,9 +51,8 @@ class ProxyClient {
         this._clientInfo = {
             userId: opts.userId,
             accountId: opts.accountId,
-            apiKey: opts.apiKey,
-            appName: this._appJson.name,
-            appVersionId: null
+            accessKey: md5(opts.accountId + opts.apiKey),
+            appName: this._appJson.name
         };
     }
 
@@ -74,9 +73,15 @@ class ProxyClient {
     close() {
         if (this._connection &&
             this._connection.isOpen()) {
-            console.log('Asking server to delete registration. Exiting in 3 seconds...');
             this._connection.deregister(this._appJson.name);
             this._connection.close();
+        }
+    }
+
+    deregister() {
+        if (this._connection &&
+            this._connection.isOpen()) {
+            this._connection.deregister(this._appJson.name);
         }
     }
 
@@ -130,10 +135,10 @@ class ProxyClient {
             throw err;
         }
 
-        this._clientInfo.appVersionId = commandResult.result;
+        const appVersionId = commandResult.result;
 
         console.log(new Date().toString(), 'Successfully saved ' + this._path + ' for app ' + this._appJson.name + '. ' +
-            'Got app version <<<' + this._clientInfo.appVersionId + '>>>.');
+            'Got app version <<<' + appVersionId + '>>>.');
         // TODO: implement code that automatically sets this app version as the current/latest (which one?) in Dexi
         console.log(new Date().toString(), 'Requests made to this app version, e.g. from an addon or a robot, ' +
             'are sent to the app running locally on this machine on port ' + this._port + ' as long as the connection to App Proxy Server is alive')

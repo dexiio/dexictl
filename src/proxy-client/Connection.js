@@ -28,7 +28,7 @@ class Connection {
             process.exit(-1)
         });
 
-        this._ws.on('close', (close) => {
+        this._ws.on('close', () => {
             console.log(new Date().toString(), 'App Proxy Server closed the connection');
             process.exit();
         });
