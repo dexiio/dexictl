@@ -1,10 +1,25 @@
 {
     "name": "dexictl",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Dexi.io command line utility",
     "main": "index.js",
     "author": "dexi.io",
     "license": "MIT",
+    "private": false,
+    "homepage": "https://dexi.io",
+    "preferGlobal": true,
+    "engines" : {
+        "node": ">=0.9.0"
+    },
+    "os" : [
+        "darwin",
+        "linux",
+        "win32"
+    ],
+    "bugs": {
+        "url" : "https://support.dexi.io",
+        "email" : "support@dexi.io"
+    },
     "bin": {
         "dexictl": "bin/dexictl"
     },
