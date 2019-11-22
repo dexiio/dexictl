@@ -1,0 +1,23 @@
+{
+    "name": "dexictl",
+    "version": "1.0.0",
+    "description": "Dexi.io command line utility",
+    "main": "index.js",
+    "author": "dexi.io",
+    "license": "MIT",
+    "bin": {
+        "dexictl": "bin/dexictl"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:dexiio/dexictl.git"
+    },
+    "dependencies": {
+        "commander": "4.0.1",
+        "inquirer": "7.0.0",
+        "js-yaml": "3.13.1",
+        "md5": "2.2.1",
+        "mkdirp": "0.5.1",
+        "ws": "7.2.0"
+    }
+}
