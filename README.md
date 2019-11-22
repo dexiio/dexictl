@@ -1,6 +1,18 @@
 # dexictl
 Dexi.io command line utility
 
+## Installation
+
+**Prerequisites**
+1. NodeJS version 9+
+1. NPM
+
+**Steps**
+
+1. Run ```npm install -g dexictl```
+1. Ensure npm global bins are on your environment PATH ( [Read more...](https://stackoverflow.com/questions/9679932/how-to-use-package-installed-locally-in-node-modules) ) 
+1. Configure your account by running ```dexictl config``` 
+
 ## Configuration
 
 **Command** ```dexictl config```
