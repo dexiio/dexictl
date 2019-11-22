@@ -11,7 +11,7 @@ Dexi.io command line utility
 
 1. Run ```npm install -g dexictl```
 1. Ensure npm global bins are on your environment PATH ( [Read more...](https://stackoverflow.com/questions/9679932/how-to-use-package-installed-locally-in-node-modules) ) 
-1. Configure your account by running ```dexictl config``` 
+1. Configure your account by running ```dexictl``` 
 
 ## Configuration
 
