@@ -223,7 +223,7 @@ class ProxyClient {
         appRequest.on('error', (err) => {
             console.error(new Date().toString(), 'An error occurred sending request ' + methodWithPath + ' to app: ' + JSON.stringify(err));
 
-            connection.sendAppResponse(this._appJson.name, {
+            this._connection.sendAppResponse(this._appJson.name, {
                 requestId: requestId,
                 status: 500,
                 headers: {},
