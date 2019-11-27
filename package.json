@@ -1,6 +1,6 @@
 {
     "name": "dexictl",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "Dexi.io command line utility",
     "main": "index.js",
     "author": "dexi.io",
@@ -28,7 +28,9 @@
         "url": "git@github.com:dexiio/dexictl.git"
     },
     "dependencies": {
+        "camelcase": "^5.3.1",
         "commander": "4.0.1",
+        "crypto-random-string": "^3.0.1",
         "handlebars": "^4.5.3",
         "inquirer": "7.0.0",
         "js-yaml": "3.13.1",

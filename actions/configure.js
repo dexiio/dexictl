@@ -3,8 +3,31 @@ const FS = require('fs');
 const HOMEDIR = require('os').homedir();
 const inquirer = require('inquirer');
 const mkdirp = require('mkdirp');
+const Handlebars = require('handlebars');
+const cryptoRandomString = require('crypto-random-string');
 
 const DEXI_CONFIG_FILE = HOMEDIR + Path.sep + '.dexi' + Path.sep + 'dexictl.json';
+const DEXI_APP_CONFIGURATION = HOMEDIR + Path.sep + '.dexi' + Path.sep + 'configuration.yml';
+
+function getTemplate(name) {
+    const template = FS.readFileSync(__dirname + '/../templates/' + name + '.hbs').toString();
+    return Handlebars.compile(template);
+}
+
+function generateConfigurationYML(config) {
+    if (FS.existsSync(DEXI_APP_CONFIGURATION)) {
+        console.log('App configuration already exists: %s', DEXI_APP_CONFIGURATION);
+        return;
+    }
+
+    const configYmlTemplate = getTemplate('configuration.yml');
+
+    const yml = configYmlTemplate({config});
+
+    FS.writeFileSync(DEXI_APP_CONFIGURATION, yml);
+
+    console.log('Created %s', DEXI_APP_CONFIGURATION);
+}
 
 const API = {};
 
@@ -57,8 +80,17 @@ API.configure = function() {
     ];
 
     return inquirer.prompt(questions).then(answers => {
+        answers.encryptionKey = existingConfig.encryptionKey;
+        if (!answers.encryptionKey) {
+            answers.encryptionKey = cryptoRandomString({length:32});
+        }
+
         mkdirp.sync(Path.dirname(DEXI_CONFIG_FILE));
         FS.writeFileSync(DEXI_CONFIG_FILE, JSON.stringify(answers, null, 2));
+
+        console.log('Updated %s', DEXI_CONFIG_FILE);
+
+        generateConfigurationYML(answers);
 
         return answers;
     });
