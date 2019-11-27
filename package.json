@@ -1,6 +1,6 @@
 {
     "name": "dexictl",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "Dexi.io command line utility",
     "main": "index.js",
     "author": "dexi.io",
@@ -8,17 +8,17 @@
     "private": false,
     "homepage": "https://dexi.io",
     "preferGlobal": true,
-    "engines" : {
+    "engines": {
         "node": ">=0.9.0"
     },
-    "os" : [
+    "os": [
         "darwin",
         "linux",
         "win32"
     ],
     "bugs": {
-        "url" : "https://support.dexi.io",
-        "email" : "support@dexi.io"
+        "url": "https://support.dexi.io",
+        "email": "support@dexi.io"
     },
     "bin": {
         "dexictl": "bin/dexictl"
@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "commander": "4.0.1",
+        "handlebars": "^4.5.3",
         "inquirer": "7.0.0",
         "js-yaml": "3.13.1",
         "md5": "2.2.1",

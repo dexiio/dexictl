@@ -1,0 +1,192 @@
+apiVersion: apps.dexi.io/v1.0
+kind: App
+name: {{app.name}}
+title: {{app.title}}
+description: {{app.description}}
+categories: {{#each app.categories}}
+- {{this}}{{/each}}
+
+properties:
+# Properties are just a list of global values that can be used throughout this specification using ${propertyName}
+  baseUrl: {{app.baseUrl}}
+
+specification:
+# Specification contains global app endpoints for using when activating the app on an account
+
+  validate: #Defines the validation endpoint. Is called to validate the activation-level configuration
+    url: "${baseUrl}/dexi/activations/validate"
+    method: POST
+
+  configuration: #Configuration for activating the app
+    myConfigValue:
+      title: Config Value Name #Used as the field label
+      type: string # Supported types are string,enum,integer,boolean,password
+      help: Describe how to fill out this value
+      placeholder: Give an example value or additional information
+      required: true # Define the configuration value as required
+      secret: true # Define the configuration value as secret (password etc)
+      sortOrder: 1 # Control the order of the fields using sortOrder
+      defaultValue: Default Value # Define a default value
+      dependsOn: [ "otherConfigValue" ] # Indicate that this value depends on another value (and is disabled until the other value is set
+
+
+components:
+# Components contain the individual integrations that this app provides
+
+- name: append-row-to-data-storage # Give it a unique name
+  type: data-storage # data-storage means we can send rows to this component for storage
+  title: Write row to data storage # Title briefly describe what the component does
+  description: Write row to data storage # Description can be used to describe more in detail what the component does
+
+  specification:
+    dynamicConfiguration: # Dynamic configuration is used when the configuration depends on values from the backend
+      url: "${baseUrl}/dexi/data/dynamic-configuration/read"
+      method: POST
+
+    configuration: # Configuration needed for using the component
+      myConfigValue:
+        title: Config Value Name #Used as the field label
+        type: string # Supported types are string,enum,integer,boolean,password
+        help: Describe how to fill out this value
+        placeholder: Give an example value or additional information
+        required: true # Define the configuration value as required
+        secret: true # Define the configuration value as secret (password etc)
+        sortOrder: 1 # Control the order of the fields using sortOrder
+        defaultValue: Default Value # Define a default value
+        dependsOn: [ "otherConfigValue" ] # Indicate that this value depends on another value (and is disabled until the other value is set
+
+    validate: # Defines the validation endpoint - is called to validate the configuration of the component
+      url: "${baseUrl}/dexi/component/support/validate"
+      method: POST
+
+    # Is used when the input schema for the component is dynamic - meaning determined by the backend service
+    # Use "inputs" to define a fixed input schema
+    dynamicInputs:
+      url: "${baseUrl}/dexi/data/dynamic-schema/read"
+      method: POST
+
+    endpoint: # The main endpoint which is called when the component is invoked.
+      url: "${baseUrl}/dexi/data/storage/write"
+      method: POST
+
+- name: read-row-from-data-storage # Give it a unique name
+  type: data-source # data-source means we can read data rows from this component
+  title: Read row from data storage # Title briefly describe what the component does
+  description: Read row from data storage # Description can be used to describe more in detail what the component does
+
+  specification:
+    configuration: # Configuration needed for using the component
+      myConfigValue:
+        title: Config Value Name #Used as the field label
+        type: string # Supported types are string,enum,integer,boolean,password
+        help: Describe how to fill out this value
+        placeholder: Give an example value or additional information
+        required: true # Define the configuration value as required
+        secret: true # Define the configuration value as secret (password etc)
+        sortOrder: 1 # Control the order of the fields using sortOrder
+        defaultValue: Default Value # Define a default value
+        dependsOn: [ "otherConfigValue" ] # Indicate that this value depends on another value (and is disabled until the other value is set
+
+    validate: # Defines the validation endpoint - is called to validate the configuration of the component
+      url: "${baseUrl}/dexi/component/support/validate"
+      method: POST
+
+    # Is used when the output schema for the component is dynamic - meaning determined by the backend service
+    # Use "outputs" to define a fixed output schema
+    dynamicOutputs:
+      url: "${baseUrl}/dexi/data/dynamic-schema/read"
+      method: POST
+
+    endpoint: # The main endpoint which is called when the component is invoked.
+      url: "${baseUrl}/dexi/data/source/read"
+      method: POST
+
+- name: process-data-rows
+  type: data-filter # data-filter means we something that receives input data and provides output data
+  title: Process some data
+  description: Processes some data
+
+  specification:
+    configuration: # Configuration needed for using the component
+      myConfigValue:
+        title: Config Value Name #Used as the field label
+        type: string # Supported types are string,enum,integer,boolean,password
+        help: Describe how to fill out this value
+        placeholder: Give an example value or additional information
+        required: true # Define the configuration value as required
+        secret: true # Define the configuration value as secret (password etc)
+        sortOrder: 1 # Control the order of the fields using sortOrder
+        defaultValue: Default Value # Define a default value
+        dependsOn: [ "otherConfigValue" ] # Indicate that this value depends on another value (and is disabled until the other value is set
+
+    # Fixed input schemas can be defined here. This is similar to JSONSchema
+    # "dynamicInputs" can also be used instead
+    inputs:
+      defaultField:
+        title: "Default Field"
+        type: string
+
+    # Fixed output schemas can be defined here. This is similar to JSONSchema
+    # "dynamicOutputs" can also be used instead
+    outputs:
+      defaultField:
+        title: "Default Field"
+        type: string
+
+    endpoint: # The main endpoint which is called when the component is invoked.
+      url: "${baseUrl}/dexi/data/filter/invoke"
+      method: POST
+
+- name: write-file-to-file-store
+  type: file-storage # file-storage means this component provides the ability to store files
+  title: Save file to file system
+  description: Saves a file to a file system
+
+  specification:
+
+    configuration: # Configuration needed for using the component
+      myConfigValue:
+        title: Config Value Name #Used as the field label
+        type: string # Supported types are string,enum,integer,boolean,password
+        help: Describe how to fill out this value
+        placeholder: Give an example value or additional information
+        required: true # Define the configuration value as required
+        secret: true # Define the configuration value as secret (password etc)
+        sortOrder: 1 # Control the order of the fields using sortOrder
+        defaultValue: Default Value # Define a default value
+        dependsOn: [ "otherConfigValue" ] # Indicate that this value depends on another value (and is disabled until the other value is set
+
+    validate: # Defines the validation endpoint - is called to validate the configuration of the component
+      url: "${baseUrl}/dexi/component/support/validate"
+      method: POST
+
+    endpoint: # The main endpoint which is called when the component is invoked.
+      url: "${baseUrl}/dexi/file/storage/write"
+      method: POST
+
+- name: read-file-from-file-store
+  type: file-source # file-source means this component provides the ability to read files from an external location
+  title: Read file from file system
+  description: Reads file from a file system
+
+  specification:
+    configuration:
+      myConfigValue:
+        title: Config Value Name #Used as the field label
+        type: string # Supported types are string,enum,integer,boolean,password
+        help: Describe how to fill out this value
+        placeholder: Give an example value or additional information
+        required: true # Define the configuration value as required
+        secret: true # Define the configuration value as secret (password etc)
+        sortOrder: 1 # Control the order of the fields using sortOrder
+        defaultValue: Default Value # Define a default value
+        dependsOn: [ "otherConfigValue" ] # Indicate that this value depends on another value (and is disabled until the other value is set
+
+    validate: # Defines the validation endpoint - is called to validate the configuration of the component
+      url: "${baseUrl}/dexi/component/support/validate"
+      method: POST
+
+    endpoint: # The main endpoint which is called when the component is invoked.
+      url: "${baseUrl}/dexi/file/source/read"
+      method: POST
+

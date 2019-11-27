@@ -10,6 +10,12 @@ program
     .description('Starts the dexi app development client for local app running on given port')
     .action(require('./actions/develop'));
 
+
+program
+    .command('create-app <name>')
+    .description('Creates new dexi.yml with the given name')
+    .action(require('./actions/create-app'));
+
 program
     .command('config')
     .description('Configure your credentials for dexi.io')
