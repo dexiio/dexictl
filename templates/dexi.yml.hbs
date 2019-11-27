@@ -8,7 +8,7 @@ categories: {{#each app.categories}}
 
 properties:
 # Properties are just a list of global values that can be used throughout this specification using ${propertyName}
-  baseUrl: {{app.baseUrl}}
+  baseUrl: http://localhost:{{app.port}}/ # Change this when your app is released publicly
 
 specification:
 # Specification contains global app endpoints for using when activating the app on an account
