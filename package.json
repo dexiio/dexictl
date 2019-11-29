@@ -1,6 +1,6 @@
 {
     "name": "dexictl",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "description": "Dexi.io command line utility",
     "main": "index.js",
     "author": "dexi.io",
