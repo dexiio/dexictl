@@ -3,6 +3,7 @@ const YAML = require('js-yaml');
 const HTTP = require('http');
 const md5 = require('md5');
 
+const DexiClient = require('../DexiClient');
 const Connection = require('./Connection');
 const {CommandType, CommandStatus} = require('./Commands');
 
@@ -37,7 +38,7 @@ class ProxyClient {
         }
 
         if (!opts.url) {
-            opts.url = 'https://app-developer.dexi.io';
+            opts.url = 'https://api.dexi.io';
         }
 
         this._port = opts.port;
@@ -46,7 +47,7 @@ class ProxyClient {
         this._path = opts.path;
 
         this._appJson = this._readAppYamlAsJson(this._path);
-        this._connection = new Connection(this._url);
+        this._connection = null;
 
         this._clientInfo = {
             userId: opts.userId,
@@ -54,15 +55,19 @@ class ProxyClient {
             accessKey: md5(opts.accountId + opts.apiKey),
             appName: this._appJson.name
         };
+
+        this._client = new DexiClient(this._url, this._clientInfo);
     }
 
-    connect() {
+    async connect() {
+        const url = await this._client.getAppProxyUrl();
+        this._connection = new Connection(url);
         this._connection.addMessageHandler(CommandType.REGISTER, this._handleRegisterResult.bind(this));
         this._connection.addMessageHandler(CommandType.APP_SAVE, this._handleSaveAppYamlResult.bind(this));
         this._connection.addMessageHandler(CommandType.APP_REQUEST, this._handleAppRequest.bind(this));
         this._connection.addMessageHandler(CommandStatus.ERROR, this._handleMessageError.bind(this));
 
-        console.log(new Date().toString() + ' Registering with App Proxy Server on ' + this._url + '...');
+        console.log(new Date().toString() + ' Registering with App Proxy Server on ' + url + '...');
         this._connection.register(this._clientInfo);
     }
 

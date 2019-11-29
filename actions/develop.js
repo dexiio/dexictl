@@ -21,7 +21,7 @@ module.exports = async function develop(port) {
 
     try {
         const proxyClient = new ProxyClient(config);
-        proxyClient.connect();
+        await proxyClient.connect();
         proxyClient.startWatching();
 
         process.on("SIGINT", function () {

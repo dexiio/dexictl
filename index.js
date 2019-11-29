@@ -17,6 +17,17 @@ program
     .action(require('./actions/create-app'));
 
 program
+    .command('push-app')
+    .description('Push dexi.yml from current folder to dexi')
+    .action(require('./actions/push-app'));
+
+program
+    .command('info')
+    .description('Show information about current configuration')
+    .action(require('./actions/info'));
+
+
+program
     .command('config')
     .description('Configure your credentials for dexi.io')
     .action(Configure.reconfigure);

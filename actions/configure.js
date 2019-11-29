@@ -45,7 +45,7 @@ API.configure = function() {
     const existingConfig = API.getConfiguration();
 
     const defaults = Object.assign({
-        url: 'https://app-developer.dexi.io'
+        url: 'https://api.dexi.io'
     }, existingConfig);
 
     const questions = [
