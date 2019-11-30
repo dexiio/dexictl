@@ -8,6 +8,7 @@ program.name('dexictl')
 program
     .command('develop <port>')
     .description('Starts the dexi app development client for local app running on given port')
+    .option('-S, --silent', 'Do not show traffic being routed to your local instance')
     .action(require('./actions/develop'));
 
 

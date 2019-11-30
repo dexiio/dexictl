@@ -3,10 +3,12 @@ const Path = require('path');
 const Configure = require('./configure');
 const ProxyClient = require('../src/proxy-client/ProxyClient');
 
-module.exports = async function develop(port) {
+module.exports = async function develop(port, command) {
+
     const config = await Configure.ensureConfig();
     config.port = port;
     config.path = process.cwd() + Path.sep + 'dexi.yml';
+    config.debug = !command.opts().silent;
 
     if (!FS.existsSync(config.path)) {
         console.error('');
