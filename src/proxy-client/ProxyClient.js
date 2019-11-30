@@ -2,6 +2,7 @@ const FS = require('fs');
 const YAML = require('js-yaml');
 const HTTP = require('http');
 const md5 = require('md5');
+const QueryString = require('querystring');
 
 const DexiClient = require('../DexiClient');
 const Connection = require('./Connection');
@@ -171,10 +172,17 @@ class ProxyClient {
     _handleAppRequest(err, commandRequest) {
         let {request, id: requestId} = commandRequest.data;
 
+        let path = request.path;
+
+        if (request.query &&
+            Object.values(request.query).length > 0) {
+            path += '?' + QueryString.stringify(request.query)
+        }
+
         const appRequestOptions = {
             hostname: 'localhost', // For now, we only support localhost, which is the default
             port: this._port,
-            path: request.path,
+            path: path,
             method: request.method,
             headers: request.headers,
             body: request.body
