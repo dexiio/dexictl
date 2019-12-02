@@ -10,16 +10,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class {{app.mainClass}} {
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        mapper.disable(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS);
-        mapper.disable(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS);
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        return mapper;
-    }
-
     public static void main(String[] args) {
         SpringApplication.run({{app.mainClass}}.class, args);
     }
