@@ -17,6 +17,10 @@ module.exports = async function() {
         }
     }
 
+    if (!config.proxy) {
+        config.proxy = 'Unknown';
+    }
+
     console.log('--------------------------------------------------------------------------');
     console.log('#                          Current configuration                         #');
     console.log('--------------------------------------------------------------------------');

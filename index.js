@@ -44,11 +44,24 @@ console.log(`
 
 `);
 
+const command = process.argv[2];
+let didConfigure = false;
+
+if (!Configure.hasConfig()) {
+    didConfigure = true;
+}
+
 Configure.ensureConfig().then(() => {
     if (process.argv.length < 3) {
         console.error('No command specified\n');
         program.help();
         process.exit(1);
+    }
+
+    if (didConfigure &&
+        command === 'config') {
+        //Avoid double configuration
+        return;
     }
 
     program.parse(process.argv);

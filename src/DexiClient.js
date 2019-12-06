@@ -57,7 +57,12 @@ class DexiClient {
 
                 if (response.statusCode > 399) {
                     err = new Error(`Request failed for ${opts.method} ${opts.url}: Status: ${response.statusCode}`);
-                    err.body = responseBody ? JSON.parse(responseBody) : responseBody;
+                    try {
+                        err.body = responseBody ? JSON.parse(responseBody) : responseBody;
+                    } catch(parseErr) {
+                        err.body = responseBody;
+                    }
+
                     reject(err);
                     return;
                 }

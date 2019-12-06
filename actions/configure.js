@@ -100,8 +100,12 @@ API.reconfigure = function() {
     return API.configure();
 };
 
+API.hasConfig = function() {
+    return FS.existsSync(DEXI_CONFIG_FILE);
+};
+
 API.ensureConfig = function() {
-    if (!FS.existsSync(DEXI_CONFIG_FILE)) {
+    if (!this.hasConfig()) {
         return API.configure();
     }
 
