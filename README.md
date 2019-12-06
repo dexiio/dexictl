@@ -43,7 +43,7 @@ Copy the key from the input field to the dexictl utility.
 You can also reuse an existing key.
 
 ### Dexi URL
-This tells the utility where to connect to dexi - simply accept the default value which is https://app-developer.dexi.io
+This tells the utility where to connect to dexi - simply accept the default value which is https://api.dexi.io
 
 ## Develop
 
